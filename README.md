@@ -1,112 +1,166 @@
-# RecettesCuisineGestionnaire de Recettes - Backend + MySQL Docker
-Résumé du projet
+Gestionnaire de Recettes de Cuisine – Projet CDA
+1️⃣ Ce que nous avons réalisé jusqu’à présent
+Configuration et environnement
 
-Ce projet est un gestionnaire de recettes de cuisine.
+Installation et configuration de Docker pour MySQL et backend Node.js.
 
-Backend : Node.js + Express
+Création d’un Docker Compose pour MySQL.
 
-Base de données : MySQL dans Docker
+Connexion de l’application backend à la base de données Dockerisée.
 
-Frontend : React Native (à venir)
+Configuration de Node.js avec Express pour le backend.
 
-Étapes réalisées jusqu’à présent
-1. Installation et vérification de Docker
+Mise en place du système MVC : dossiers models, controllers, routes.
 
-Test avec le container hello-world pour vérifier l’installation :
+Création de fichiers utilitaires pour :
 
-docker run hello-world
-Résultat : message de succès confirmé.
+Gestion des hashs de mot de passe (bcrypt/argon2)
 
-2. Création du container MySQL avec Docker Compose
+Gestion des JWT (signToken, verifyTokenUtil)
 
-Création du dossier db/ et du fichier docker-compose.yml :
+Validation des données avec Joi (validations/)
 
-Commande pour lancer le container :
-docker-compose up -d
+Base de données
 
-Vérification :
-docker ps
+Création de la table users avec :
+id, name, email, password_hash, role, created_at
 
-3. Création de la base de données et des tables
+Création de la table categories avec :
+id, name, description, created_at
 
-Base créée : recettesCuisine_db
+Création de la table recipes avec :
+id, title, description, ingredients, category_id, user_id, created_at, updated_at
 
-Tables créées :
+Authentification (Auth)
 
-users
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+Routes et controllers pour :
 
-categories
-CREATE TABLE categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+Register (création d’utilisateur)
 
-recipes
-CREATE TABLE recipes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    description TEXT,
-    ingredients TEXT,
-    category_id INT,
-    user_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
+Login (connexion avec JWT)
 
-4. Création du backend Node.js
+Logout
 
-Dossier : back/
+GetMe (récupérer l’utilisateur connecté)
 
-Initialisation Node.js :
+DeleteUser (admin uniquement)
 
-npm init -y
+Middleware pour :
+
+Vérifier le JWT (verifyToken)
+
+Vérifier le rôle (requireAuth)
+
+Validation des données avec Joi pour register et login.
+
+Gestion des catégories
+
+Modèle, controller et routes CRUD pour categories.
+
+Validation des données avec Joi.
+
+Gestion de created_at et description.
+
+Gestion des recettes
+
+Modèle, controller et routes CRUD pour recipes.
+
+user_id automatiquement récupéré depuis le token JWT lors de la création.
+
+Gestion de created_at et updated_at.
+
+Validation des données avec Joi (recipeSchema).
+
+2️⃣ Ce qu’il reste à faire
+Backend
+
+Ajouter contrôle de propriété : seuls les propriétaires ou l’admin peuvent modifier ou supprimer leurs recettes.
+
+Ajouter filtrage / pagination / recherche pour les recettes.
+
+Ajouter tests unitaires et d’intégration (Jest / Supertest).
+
+Ajouter CI/CD pour automatiser tests et déploiement sur serveur Linux.
+
+Frontend
+
+Créer la partie frontend avec React ou React Native :
+
+Pages : Login, Register, Dashboard, Liste de recettes, Détails recette, Création / Modification recette, Gestion catégories.
+
+Consommer les API du backend avec Axios ou Fetch.
+
+Gestion des cookies pour JWT.
+
+Déploiement
+
+Déploiement de l’application backend et frontend sur serveur Linux ou cloud (Render, Railway, Heroku, etc.)
+
+Utilisation de Docker pour le déploiement.
+
+Améliorations possibles
+
+Gestion d’images pour les recettes.
+
+Système de favoris / likes / commentaires.
+
+Mise en place d’un système de notifications.
+
+Gestion des rôles avancés (admin, gérante, utilisateur).
+
+3️⃣ Organisation du projet
+/back
+  /config
+    db.js
+  /controllers
+    authController.js
+    categoryController.js
+    recipeController.js
+  /models
+    userModel.js
+    categoryModel.js
+    recipeModel.js
+  /routes
+    authRoutes.js
+    categoryRoutes.js
+    recipeRoutes.js
+  /utils
+    hash.js
+    jwt.js
+  /validations
+    authValidation.js
+    categoryValidation.js
+    recipeValidation.js
+  /middlewares
+    auth.js
+    validate.js
+index.js
+.env
+docker-compose.yml
 
 
-Dépendances installées :
-
-npm install express mysql2 dotenv
-npm install --save-dev nodemon
 
 
-Variables d’environnement .env :
 
-DB_HOST=
-DB_PORT=
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
-PORT=
+« Reprenons le projet Gestionnaire de Recettes de Cuisine là où nous nous étions arrêtés.
+On a déjà :
 
+Backend avec Node.js / Express / MVC complet pour users, categories et recipes
 
-Script de démarrage dans package.json :
+Authentification JWT avec middleware et validation Joi
 
-"start": "node index.js",
-"dev": "nodemon index.js"
+Docker pour MySQL et backend
 
-Test du backend :
-npm run dev
+Base de données avec tables users, categories, recipes avec created_at et updated_at
 
+Routes et controllers pour CRUD complet
 
-Résultat :
+Ce qu’il reste à faire :
 
-Backend démarré sur le port 5000
-Connecté à MySQL Dockerisé !
+Backend : contrôle de propriété, filtres/pagination, tests unitaires/intégration, CI/CD
 
-5. Prochaines étapes
+Frontend : React ou React Native avec pages Login, Register, Dashboard, Liste Recettes, Détails Recette, Création/Modification Recette, Gestion Catégories, consommation des API backend
 
-Ajouter les endpoints CRUD pour recipes et categories
+Déploiement sur serveur Linux avec Docker
 
-Ajouter l’endpoint /auth/register pour créer des utilisateurs
-
-Créer le frontend React Native
-
-Optionnel : dockeriser le backend pour un projet entièrement portable
+Reprends depuis la prochaine étape backend ou frontend selon les priorités. »
