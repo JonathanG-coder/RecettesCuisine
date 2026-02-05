@@ -21,7 +21,8 @@ export const createRecipe = async (req, res) => {
 // ==========================
 export const getAllRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.getAllRecipes();
+    const recipes = await Recipe.getRecipes(filters, limit, offset)
+;
     res.json(recipes);
   } catch (err) {
     console.error("Erreur lors de la récupération des recettes :", err);

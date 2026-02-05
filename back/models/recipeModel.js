@@ -1,27 +1,64 @@
 import pool from "../config/db.js";
 
 export const Recipe = {
+  // ==========================
+  // CREATE RECIPE
+  // ==========================
   createRecipe: async ({ title, description, ingredients, category_id, user_id }) => {
     const sql = `
       INSERT INTO recipes (title, description, ingredients, category_id, user_id)
       VALUES (?, ?, ?, ?, ?)
     `;
-    const [result] = await pool.query(sql, [title, description, ingredients, category_id, user_id]);
+    const [result] = await pool.query(sql, [
+      title,
+      description,
+      ingredients,
+      category_id,
+      user_id,
+    ]);
+
     return result;
   },
 
-  getAllRecipes: async () => {
-    const sql = `
+  // ==========================
+  // GET RECIPES WITH FILTERS + PAGINATION
+  // ==========================
+  getRecipes: async (filters, limit, offset) => {
+    let sql = `
       SELECT r.*, c.name AS category_name, u.name AS author
       FROM recipes r
       LEFT JOIN categories c ON r.category_id = c.id
       LEFT JOIN users u ON r.user_id = u.id
-      ORDER BY r.created_at DESC
+      WHERE 1=1
     `;
-    const [rows] = await pool.query(sql);
+
+    const values = [];
+
+    if (filters.category_id) {
+      sql += " AND r.category_id = ?";
+      values.push(filters.category_id);
+    }
+
+    if (filters.user_id) {
+      sql += " AND r.user_id = ?";
+      values.push(filters.user_id);
+    }
+
+    if (filters.search) {
+      sql += " AND r.title LIKE ?";
+      values.push(`%${filters.search}%`);
+    }
+
+    sql += " ORDER BY r.created_at DESC LIMIT ? OFFSET ?";
+    values.push(limit, offset);
+
+    const [rows] = await pool.query(sql, values);
     return rows;
   },
 
+  // ==========================
+  // GET ONE RECIPE
+  // ==========================
   getRecipeById: async (id) => {
     const sql = `
       SELECT r.*, c.name AS category_name, u.name AS author
@@ -34,19 +71,32 @@ export const Recipe = {
     return rows[0];
   },
 
+  // ==========================
+  // UPDATE RECIPE
+  // ==========================
   updateRecipe: async (id, { title, description, ingredients, category_id }) => {
     const sql = `
       UPDATE recipes
-      SET title = ?, description = ?, ingredients = ?, category_id = ?
+      SET title = ?, description = ?, ingredients = ?, category_id = ?, updated_at = NOW()
       WHERE id = ?
     `;
-    const [result] = await pool.query(sql, [title, description, ingredients, category_id, id]);
+    const [result] = await pool.query(sql, [
+      title,
+      description,
+      ingredients,
+      category_id,
+      id,
+    ]);
+
     return result;
   },
 
+  // ==========================
+  // DELETE RECIPE
+  // ==========================
   deleteRecipe: async (id) => {
     const sql = `DELETE FROM recipes WHERE id = ?`;
     const [result] = await pool.query(sql, [id]);
     return result;
-  }
+  },
 };
