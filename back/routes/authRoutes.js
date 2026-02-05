@@ -5,6 +5,7 @@ import { verifyToken, requireAuth } from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
 import { registerSchema, loginSchema } from "../validations/authValidation.js";
 import { upload } from "../middlewares/upload.js";
+
 const router = express.Router();
 
 // ==========================
@@ -23,7 +24,10 @@ const loginLimiter = rateLimit({
 // Routes utilisateurs
 // ==========================
 
-// Créer un utilisateur (admin seulement) avec validation
+// 1️⃣ Inscription publique
+router.post("/register", validate(registerSchema), register);
+
+// 2️⃣ Créer un utilisateur (admin seulement, rôle choisi)
 router.post(
   "/",
   verifyToken,
@@ -54,7 +58,6 @@ router.delete("/:id", verifyToken, requireAuth(["admin"]), deleteUser);
 
 // ==========================
 // Route admin protégée (exemple)
-// ==========================
 router.get(
   "/admin/dashboard",
   verifyToken,
