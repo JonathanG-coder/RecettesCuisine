@@ -1,18 +1,32 @@
 import express from "express";
-import { createRecipe, getAllRecipes, getRecipeById, updateRecipe, deleteRecipe } from "../controllers/recipeController.js";
-import { verifyToken, requireAuth } from "../middlewares/auth.js";
+import {
+  createRecipe,
+  getAllRecipes,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe
+} from "../controllers/recipeController.js";
+
+import { verifyToken } from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
 import { recipeSchema } from "../validations/recipeValidation.js";
 import { checkRecipeOwner } from "../middlewares/checkOwnership.js";
+import { upload } from "../middlewares/upload.js"; // Multer + Cloudinary
 
 const router = express.Router();
 
 // ==========================
-// CRUD Recipes
+// CRUD Recettes
 // ==========================
 
-// Créer une recette (connecté)
-router.post("/", verifyToken, validate(recipeSchema), createRecipe);
+// Créer une recette (connecté + image)
+router.post(
+  "/",
+  verifyToken,
+  upload.single("image"),
+  validate(recipeSchema),
+  createRecipe
+);
 
 // Lister toutes les recettes
 router.get("/", getAllRecipes);
@@ -20,10 +34,17 @@ router.get("/", getAllRecipes);
 // Récupérer une recette par ID
 router.get("/:id", getRecipeById);
 
-// Modifier une recette (connecté et propriétaire ou admin)
-router.put("/:id", verifyToken, checkRecipeOwner, validate(recipeSchema), updateRecipe);
+// Modifier une recette (connecté + propriétaire/admin + image)
+router.put(
+  "/:id",
+  verifyToken,
+  checkRecipeOwner,
+  upload.single("image"),
+  validate(recipeSchema),
+  updateRecipe
+);
 
-// Supprimer une recette (connecté et propriétaire ou admin)
+// Supprimer une recette (connecté + propriétaire/admin)
 router.delete("/:id", verifyToken, checkRecipeOwner, deleteRecipe);
 
 export default router;

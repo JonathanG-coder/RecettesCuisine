@@ -21,14 +21,16 @@ export const Recipe = {
   },
 
   // ==========================
-  // GET RECIPES WITH FILTERS + PAGINATION
+  // GET RECIPES WITH FILTERS + PAGINATION + IMAGE
   // ==========================
   getRecipes: async (filters, limit, offset) => {
     let sql = `
-      SELECT r.*, c.name AS category_name, u.name AS author
+      SELECT r.*, c.name AS category_name, u.name AS author,
+             i.url AS image_url
       FROM recipes r
       LEFT JOIN categories c ON r.category_id = c.id
       LEFT JOIN users u ON r.user_id = u.id
+      LEFT JOIN images i ON i.entity_type='recipe' AND i.entity_id = r.id
       WHERE 1=1
     `;
 
@@ -50,7 +52,7 @@ export const Recipe = {
     }
 
     sql += " ORDER BY r.created_at DESC LIMIT ? OFFSET ?";
-    values.push(limit, offset);
+    values.push(parseInt(limit), parseInt(offset));
 
     const [rows] = await pool.query(sql, values);
     return rows;
@@ -61,10 +63,12 @@ export const Recipe = {
   // ==========================
   getRecipeById: async (id) => {
     const sql = `
-      SELECT r.*, c.name AS category_name, u.name AS author
+      SELECT r.*, c.name AS category_name, u.name AS author,
+             i.url AS image_url
       FROM recipes r
       LEFT JOIN categories c ON r.category_id = c.id
       LEFT JOIN users u ON r.user_id = u.id
+      LEFT JOIN images i ON i.entity_type='recipe' AND i.entity_id = r.id
       WHERE r.id = ?
     `;
     const [rows] = await pool.query(sql, [id]);

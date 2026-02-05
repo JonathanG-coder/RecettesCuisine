@@ -1,73 +1,91 @@
-import { Recipe } from "../models/recipeModel.js";
+import { RecipeService } from "../services/recipeService.js";
 
 // ==========================
-// CRÉER UNE RECETTE
-// ==========================
+// Créer une recette (avec image)
 export const createRecipe = async (req, res) => {
   const { title, description, ingredients, category_id } = req.body;
-  const user_id = req.user.id; // Récupéré depuis le token JWT de l'utilisateur connecté
+  const user_id = req.user.id; // récupéré depuis JWT
 
   try {
-    const result = await Recipe.createRecipe({ title, description, ingredients, category_id, user_id });
-    res.status(201).json({ message: "Recette créée avec succès", id: result.insertId });
+    const recipeId = await RecipeService.createRecipe({
+      title,
+      description,
+      ingredients,
+      category_id,
+      user_id,
+      file: req.file, // Multer + Cloudinary
+    });
+
+    res.status(201).json({ message: "Recette créée avec succès", id: recipeId });
   } catch (err) {
-    console.error("Erreur lors de la création de la recette :", err);
+    console.error("Erreur createRecipe:", err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
 
 // ==========================
-// RÉCUPÉRER TOUTES LES RECETTES
-// ==========================
+// Récupérer toutes les recettes
 export const getAllRecipes = async (req, res) => {
+  const filters = {
+    category_id: req.query.category_id || null,
+    user_id: req.query.user_id || null,
+    search: req.query.search || null,
+  };
+
+  const limit = req.query.limit || 10;
+  const offset = req.query.offset || 0;
+
   try {
-    const recipes = await Recipe.getRecipes(filters, limit, offset)
-;
+    const recipes = await RecipeService.getAllRecipes(filters, limit, offset);
     res.json(recipes);
   } catch (err) {
-    console.error("Erreur lors de la récupération des recettes :", err);
+    console.error("Erreur getAllRecipes:", err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
 
 // ==========================
-// RÉCUPÉRER UNE RECETTE PAR ID
-// ==========================
+// Récupérer une recette par ID
 export const getRecipeById = async (req, res) => {
   try {
-    const recipe = await Recipe.getRecipeById(req.params.id);
+    const recipe = await RecipeService.getRecipeById(req.params.id);
     if (!recipe) return res.status(404).json({ message: "Recette non trouvée" });
     res.json(recipe);
   } catch (err) {
-    console.error("Erreur lors de la récupération de la recette :", err);
+    console.error("Erreur getRecipeById:", err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
 
 // ==========================
-// MODIFIER UNE RECETTE
-// ==========================
+// Modifier une recette (avec image)
 export const updateRecipe = async (req, res) => {
   const { title, description, ingredients, category_id } = req.body;
 
   try {
-    await Recipe.updateRecipe(req.params.id, { title, description, ingredients, category_id });
+    await RecipeService.updateRecipe(req.params.id, {
+      title,
+      description,
+      ingredients,
+      category_id,
+      file: req.file, // Multer + Cloudinary
+    });
+
     res.json({ message: "Recette mise à jour avec succès" });
   } catch (err) {
-    console.error("Erreur lors de la mise à jour de la recette :", err);
+    console.error("Erreur updateRecipe:", err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };
 
 // ==========================
-// SUPPRIMER UNE RECETTE
-// ==========================
+// Supprimer une recette
 export const deleteRecipe = async (req, res) => {
   try {
-    await Recipe.deleteRecipe(req.params.id);
+    await RecipeService.deleteRecipe(req.params.id);
     res.json({ message: "Recette supprimée avec succès" });
   } catch (err) {
-    console.error("Erreur lors de la suppression de la recette :", err);
+    console.error("Erreur deleteRecipe:", err);
     res.status(500).json({ error: "Erreur serveur" });
   }
 };

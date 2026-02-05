@@ -11,6 +11,7 @@ import authRoutes from "./routes/authRoutes.js";
 import recipeRoutes from "./routes/recipeRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import favoriteRoutes from "./routes/favoriteRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use("/api/auth", authRoutes);         // Authentification / utilisateurs
 app.use("/api/recipes", recipeRoutes);   // Recettes CRUD
 app.use("/api/categories", categoryRoutes); // Catégories CRUD
 app.use("/api/favorites", favoriteRoutes);  // Favoris
+app.use("/api/images", imageRoutes);        // image
 
 // ==========================
 // Test connexion MySQL
