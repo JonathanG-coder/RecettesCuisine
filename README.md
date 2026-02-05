@@ -71,12 +71,128 @@ Gestion de created_at et updated_at.
 
 Validation des données avec Joi (recipeSchema).
 
+Authentification & Utilisateurs (terminé)
+Table users
+
+Champs principaux :
+
+id
+
+name
+
+email
+
+password_hash
+
+role (user, admin, gerante)
+
+created_at
+
+Fonctionnalités en place
+Auth
+
+✔ Register utilisateur
+✔ Login
+✔ Logout
+✔ Récupérer utilisateur connecté
+
+Sécurité
+
+✔ Hash password (argon2/bcrypt via utils)
+✔ JWT via utils/jwt.js
+✔ Token stocké en cookie httpOnly
+✔ Middleware verifyToken
+✔ Middleware requireAuth (roles)
+✔ Rate limit login
+✔ Validation Joi
+✔ Middleware validate
+
+✅ Gestion des catégories (terminé)
+Table categories
+
+id
+
+name
+
+description
+
+created_at
+
+API categories
+
+✔ Créer catégorie (admin)
+✔ Lister catégories
+✔ Modifier catégorie
+✔ Supprimer catégorie
+
+✅ Gestion des recettes (fait aujourd’hui)
+Table recipes
+
+Colonnes :
+
+id
+
+title
+
+description
+
+ingredients
+
+category_id
+
+user_id
+
+created_at
+
+updated_at
+
+Relations :
+
+recette → catégorie
+
+recette → auteur
+
+Fonctionnalités recettes
+CRUD
+
+✔ Créer recette
+✔ Voir toutes les recettes
+✔ Voir une recette
+✔ Modifier recette
+✔ Supprimer recette
+
+Pagination & filtres
+
+✔ Pagination
+
+/recipes?page=1&limit=10
+
+
+✔ Filtre catégorie
+
+/recipes?category_id=2
+
+
+✔ Recherche par titre
+
+/recipes?search=pizza
+
+Sécurité recettes
+
+✔ Une recette appartient à un user
+✔ Seul auteur ou admin peut modifier
+✔ Seul auteur ou admin peut supprimer
+
+Donc :
+
+user → modifie ses recettes
+admin → modifie tout
+
+
+
 2️⃣ Ce qu’il reste à faire
 Backend
 
-Ajouter contrôle de propriété : seuls les propriétaires ou l’admin peuvent modifier ou supprimer leurs recettes.
-
-Ajouter filtrage / pagination / recherche pour les recettes.
 
 Ajouter tests unitaires et d’intégration (Jest / Supertest).
 
@@ -157,7 +273,7 @@ Routes et controllers pour CRUD complet
 
 Ce qu’il reste à faire :
 
-Backend : contrôle de propriété, filtres/pagination, tests unitaires/intégration, CI/CD
+Backend :, tests unitaires/intégration, CI/CD
 
 Frontend : React ou React Native avec pages Login, Register, Dashboard, Liste Recettes, Détails Recette, Création/Modification Recette, Gestion Catégories, consommation des API backend
 

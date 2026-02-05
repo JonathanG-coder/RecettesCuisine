@@ -5,7 +5,12 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 
 import pool from "./config/db.js";
+
+// Routes
 import authRoutes from "./routes/authRoutes.js";
+import recipeRoutes from "./routes/recipeRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import favoriteRoutes from "./routes/favoriteRoutes.js";
 
 dotenv.config();
 
@@ -14,24 +19,28 @@ const app = express();
 // ==========================
 // Middlewares globaux
 // ==========================
+app.use(helmet()); // sécurité HTTP headers
 app.use(cors({
-  origin: "http://localhost:5173", // front Vite par défaut
+  origin: "http://localhost:5173", // front Vite
   credentials: true
 }));
-
 app.use(express.json());
 app.use(cookieParser());
 
+// ==========================
 // Route test
+// ==========================
 app.get("/", (req, res) => {
   res.send("RecettesCuisine en ligne");
 });
 
-
 // ==========================
-// Routes
+// Routes API
 // ==========================
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);         // Authentification / utilisateurs
+app.use("/api/recipes", recipeRoutes);   // Recettes CRUD
+app.use("/api/categories", categoryRoutes); // Catégories CRUD
+app.use("/api/favorites", favoriteRoutes);  // Favoris
 
 // ==========================
 // Test connexion MySQL
