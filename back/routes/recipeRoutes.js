@@ -3,6 +3,7 @@ import { createRecipe, getAllRecipes, getRecipeById, updateRecipe, deleteRecipe 
 import { verifyToken, requireAuth } from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
 import { recipeSchema } from "../validations/recipeValidation.js";
+import { checkRecipeOwner } from "../middlewares/checkOwnership.js";
 
 const router = express.Router();
 
@@ -20,9 +21,9 @@ router.get("/", getAllRecipes);
 router.get("/:id", getRecipeById);
 
 // Modifier une recette (connecté et propriétaire ou admin)
-router.put("/:id", verifyToken, validate(recipeSchema), updateRecipe);
+router.put("/:id", verifyToken, checkRecipeOwner, validate(recipeSchema), updateRecipe);
 
 // Supprimer une recette (connecté et propriétaire ou admin)
-router.delete("/:id", verifyToken, deleteRecipe);
+router.delete("/:id", verifyToken, checkRecipeOwner, deleteRecipe);
 
 export default router;
