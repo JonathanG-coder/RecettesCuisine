@@ -52,6 +52,12 @@ export const getMe = (req, res) => {
 // UPLOAD AVATAR
 export const uploadAvatar = async (req, res) => {
   try {
+    console.log("===== DEBUG AVATAR UPLOAD =====");
+    console.log("Utilisateur connecté (req.user):", req.user);
+    console.log("Entity Type (req.body.entity_type):", req.body.entity_type);
+    console.log("Fichier uploadé (req.file):", req.file);
+    console.log("================================");
+    
     await UserService.uploadAvatar(req.user.id, req.file);
     res.json({ message: "Avatar mis à jour" });
   } catch (err) {

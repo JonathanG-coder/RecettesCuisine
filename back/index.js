@@ -17,6 +17,9 @@ dotenv.config();
 
 const app = express();
 
+import bcrypt from "bcrypt";
+
+
 // ==========================
 // Middlewares globaux
 // ==========================

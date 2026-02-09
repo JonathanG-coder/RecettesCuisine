@@ -3,7 +3,7 @@ import { createCategory, getAllCategories, getCategoryById, updateCategory, dele
 import { verifyToken, requireAuth } from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
 import { categorySchema } from "../validations/categoryValidation.js";
-import { upload } from "../middlewares/upload.js"; // Multer + Cloudinary
+import { upload } from "../middlewares/uploadCloudinary.js";
 
 const router = express.Router();
 

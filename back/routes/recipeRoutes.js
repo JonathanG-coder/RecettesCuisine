@@ -11,7 +11,7 @@ import { verifyToken } from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
 import { recipeSchema } from "../validations/recipeValidation.js";
 import { checkRecipeOwner } from "../middlewares/checkOwnership.js";
-import { upload } from "../middlewares/upload.js"; // Multer + Cloudinary
+import { upload } from "../middlewares/uploadCloudinary.js";
 
 const router = express.Router();
 

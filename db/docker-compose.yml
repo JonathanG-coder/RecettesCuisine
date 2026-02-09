@@ -6,10 +6,10 @@ services:
     container_name: recettesCuisine_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password123
-      MYSQL_DATABASE: recettesCuisine_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: userpass
+      MYSQL_ROOT_PASSWORD: password123Espelette
+      MYSQL_DATABASE: recettescuisine_db
+      MYSQL_USER: Gimli
+      MYSQL_PASSWORD: Psychokiller75.
     ports:
       - "3307:3306"
     volumes:

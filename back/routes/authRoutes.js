@@ -4,7 +4,7 @@ import { register, loginUser, deleteUser, logoutUser, getMe, uploadAvatar } from
 import { verifyToken, requireAuth } from "../middlewares/auth.js";
 import { validate } from "../middlewares/validate.js";
 import { registerSchema, loginSchema } from "../validations/authValidation.js";
-import { upload } from "../middlewares/upload.js";
+import { upload } from "../middlewares/uploadCloudinary.js";
 
 const router = express.Router();
 
