@@ -1,282 +1,300 @@
-Gestionnaire de Recettes de Cuisine – Projet CDA
-1️⃣ Ce que nous avons réalisé jusqu’à présent
-Configuration et environnement
+Projet Fil Rouge CDA
+Gestionnaire de Recettes de Cuisine
 
-Installation et configuration de Docker pour MySQL et backend Node.js.
+Présentation du projet :
+Concept :
+Application mobile permettant aux utilisateurs de :
+créer un compte,
+ajouter leurs recettes,
+modifier ou supprimer leurs recettes,
+organiser les recettes par catégories,
+rechercher et filtrer les recettes,
+ajouter des recettes en favoris,
+partager leurs recettes (optionnel).
 
-Création d’un Docker Compose pour MySQL.
+Objectif : proposer une application simple et moderne pour découvrir et gérer des recettes de cuisine.
 
-Connexion de l’application backend à la base de données Dockerisée.
 
-Configuration de Node.js avec Express pour le backend.
 
-Mise en place du système MVC : dossiers models, controllers, routes.
+Objectif pédagogique CDA
+Le projet doit démontrer :
+architecture backend complète,
+API sécurisée,
+gestion base de données,
+frontend fonctionnel,
+dockerisation,
+CI/CD,
+déploiement Linux,
+bonnes pratiques professionnelles.
 
-Création de fichiers utilitaires pour :
 
-Gestion des hashs de mot de passe (bcrypt/argon2)
 
-Gestion des JWT (signToken, verifyTokenUtil)
 
-Validation des données avec Joi (validations/)
 
-Base de données
+Stack technique
+Partie	Technologie
+Frontend	React Native (Expo)
+Backend	Node.js + Express
+Base de données	MySQL
+Authentification	JWT + cookies httpOnly
+ORM/DB	mysql2
+Validation	Joi
+Images	Cloudinary
+Conteneurs	Docker
+Tests	Jest + Supertest
+CI/CD	GitHub Actions / GitLab CI
+Déploiement	Serveur Linux
+Cache (optionnel)	Redis
+Temps réel (optionnel)	WebSocket
 
-Création de la table users avec :
-id, name, email, password_hash, role, created_at
 
-Création de la table categories avec :
-id, name, description, created_at
+Architecture globale
+Frontend (React Native)
+        │
+        │ REST API
+        ▼
+Backend Node.js (Express)
+        │
+        ├── MySQL (Docker)
+        ├── Cloudinary (images)
+        ├── Redis (optionnel)
+        └── WebSocket (optionnel)
 
-Création de la table recipes avec :
-id, title, description, ingredients, category_id, user_id, created_at, updated_at
 
-Authentification (Auth)
 
-Routes et controllers pour :
 
-Register (création d’utilisateur)
+Base de données : 
 
-Login (connexion avec JWT)
 
-Logout
-
-GetMe (récupérer l’utilisateur connecté)
-
-DeleteUser (admin uniquement)
-
-Middleware pour :
-
-Vérifier le JWT (verifyToken)
-
-Vérifier le rôle (requireAuth)
-
-Validation des données avec Joi pour register et login.
-
-Gestion des catégories
-
-Modèle, controller et routes CRUD pour categories.
-
-Validation des données avec Joi.
-
-Gestion de created_at et description.
-
-Gestion des recettes
-
-Modèle, controller et routes CRUD pour recipes.
-
-user_id automatiquement récupéré depuis le token JWT lors de la création.
-
-Gestion de created_at et updated_at.
-
-Validation des données avec Joi (recipeSchema).
-
-Authentification & Utilisateurs (terminé)
 Table users
+users
+- id
+- name
+- email
+- password_hash
+- role (user/admin)
+- created_at
 
-Champs principaux :
 
-id
 
-name
 
-email
+Table categories
+categories
+- id
+- name
+- description
+- created_at
 
-password_hash
 
-role (user, admin, gerante)
 
-created_at
 
-Fonctionnalités en place
-Auth
+Table recipes
+recipes
+- id
+- title
+- description
+- ingredients
+- category_id
+- user_id
+- created_at
+- updated_at
 
-✔ Register utilisateur
+
+Relations :
+recette → catégorie
+recette → utilisateur
+
+
+Table favorites
+favorites
+- id
+- user_id
+- recipe_id
+- created_at
+
+
+Contrainte :
+UNIQUE(user_id, recipe_id)
+Empêche les doublons.
+
+
+État actuel du projet (MIS À JOUR)
+Environnement
+✔ Docker installé
+✔ MySQL via Docker
+✔ Backend connecté à la DB
+✔ Structure MVC mise en place
+
+Authentification
+Fonctionnalités disponibles :
+
+✔ Register
 ✔ Login
 ✔ Logout
-✔ Récupérer utilisateur connecté
+✔ Récupération utilisateur connecté
 
-Sécurité
+Sécurité :
 
-✔ Hash password (argon2/bcrypt via utils)
-✔ JWT via utils/jwt.js
-✔ Token stocké en cookie httpOnly
+✔ Hash password
+✔ JWT
+✔ Cookie httpOnly
 ✔ Middleware verifyToken
-✔ Middleware requireAuth (roles)
-✔ Rate limit login
+✔ Middleware requireAuth
 ✔ Validation Joi
-✔ Middleware validate
+✔ Rate limiting login
 
-✅ Gestion des catégories (terminé)
-Table categories
+Gestion des catégories
+CRUD complet :
 
-id
-
-name
-
-description
-
-created_at
-
-API categories
-
-✔ Créer catégorie (admin)
+✔ Créer catégorie
 ✔ Lister catégories
 ✔ Modifier catégorie
 ✔ Supprimer catégorie
 
-✅ Gestion des recettes (fait aujourd’hui)
-Table recipes
-
-Colonnes :
-
-id
-
-title
-
-description
-
-ingredients
-
-category_id
-
-user_id
-
-created_at
-
-updated_at
-
-Relations :
-
-recette → catégorie
-
-recette → auteur
-
-Fonctionnalités recettes
-CRUD
+Gestion des recettes
+CRUD complet :
 
 ✔ Créer recette
 ✔ Voir toutes les recettes
-✔ Voir une recette
+✔ Voir recette par ID
 ✔ Modifier recette
 ✔ Supprimer recette
 
-Pagination & filtres
 
+Sécurité :
+✔ Recette liée à utilisateur
+✔ Auteur ou admin peut modifier/supprimer
+
+
+
+Fonctionnalités :
 ✔ Pagination
-
-/recipes?page=1&limit=10
-
-
-✔ Filtre catégorie
-
-/recipes?category_id=2
-
-
+✔ Filtre par catégorie
 ✔ Recherche par titre
 
-/recipes?search=pizza
+Gestion des favoris
+✔ Ajouter favori
+✔ Supprimer favori
+✔ Liste favoris utilisateur
+✔ Protection anti doublons
 
-Sécurité recettes
-
-✔ Une recette appartient à un user
-✔ Seul auteur ou admin peut modifier
-✔ Seul auteur ou admin peut supprimer
-
-Donc :
-
-user → modifie ses recettes
-admin → modifie tout
+Images
+✔ Upload possible via Cloudinary
+✔ Images associées aux catégories
+✔ Images associées aux recettes
 
 
-
-2️⃣ Ce qu’il reste à faire
-Backend
-
-
-Ajouter tests unitaires et d’intégration (Jest / Supertest).
-
-Ajouter CI/CD pour automatiser tests et déploiement sur serveur Linux.
-
-Frontend
-
-Créer la partie frontend avec React ou React Native :
-
-Pages : Login, Register, Dashboard, Liste de recettes, Détails recette, Création / Modification recette, Gestion catégories.
-
-Consommer les API du backend avec Axios ou Fetch.
-
-Gestion des cookies pour JWT.
-
-Déploiement
-
-Déploiement de l’application backend et frontend sur serveur Linux ou cloud (Render, Railway, Heroku, etc.)
-
-Utilisation de Docker pour le déploiement.
-
-Améliorations possibles
-
-Gestion d’images pour les recettes.
-
-Système de favoris / likes / commentaires.
-
-Mise en place d’un système de notifications.
-
-Gestion des rôles avancés (admin, gérante, utilisateur).
-
-3️⃣ Organisation du projet
+Organisation backend actuelle
 /back
-  /config
-    db.js
-  /controllers
-    authController.js
-    categoryController.js
-    recipeController.js
-  /models
-    userModel.js
-    categoryModel.js
-    recipeModel.js
-  /routes
-    authRoutes.js
-    categoryRoutes.js
-    recipeRoutes.js
-  /utils
-    hash.js
-    jwt.js
-  /validations
-    authValidation.js
-    categoryValidation.js
-    recipeValidation.js
-  /middlewares
-    auth.js
-    validate.js
+│
+├── config
+│   └── db.js
+│
+├── controllers
+│   ├── authController.js
+│   ├── categoryController.js
+│   ├── recipeController.js
+│   └── favoriteController.js
+│
+├── services
+│   ├── categoryService.js
+│   └── favoriteService.js
+│
+├── models
+│   ├── userModel.js
+│   ├── categoryModel.js
+│   ├── recipeModel.js
+│   └── favoriteModel.js
+│
+├── routes
+│   ├── authRoutes.js
+│   ├── categoryRoutes.js
+│   ├── recipeRoutes.js
+│   └── favoriteRoutes.js
+│
+├── middlewares
+│   ├── auth.js
+│   └── validate.js
+│
+├── validations
+│   ├── authValidation.js
+│   ├── categoryValidation.js
+│   └── recipeValidation.js
+│
+├── utils
+│   ├── hash.js
+│   └── jwt.js
+│
 index.js
 .env
 docker-compose.yml
 
 
+Frontend prévu : 
+Application React Native / Expo.
+Pages principales :
+Login
+Register
+Dashboard recettes
+Détail recette
+Création recette
+Modification recette
+Profil utilisateur
+Favoris
+Composants :
+RecipeCard
+RecipeForm
+Navigation mobile
+Modal édition
+
+
+Fonctionnalités restantes
+
+Backend
+À faire :
+validation complète recettes
+images recettes
+tests unitaires
+tests d’intégration
+CI/CD
+cache Redis (optionnel)
+
+Frontend
+À faire :
+création projet React Native
+pages principales
+connexion API backend
+gestion authentification
+affichage recettes
+
+Docker
+À faire :
+dockerisation frontend
+docker-compose complet
+config production
+
+
+Déploiement
+À faire :
+serveur Linux final
+déploiement Docker
+configuration domaine / HTTPS
 
 
 
-« Reprenons le projet Gestionnaire de Recettes de Cuisine là où nous nous étions arrêtés.
-On a déjà :
+Fonctionnalités bonus possibles
+Pour valoriser le projet :
+commentaires recettes
+classement recettes populaires
+notifications temps réel
+export PDF recette
+partage réseaux sociaux
+mode sombre
+cache Redis
 
-Backend avec Node.js / Express / MVC complet pour users, categories et recipes
 
-Authentification JWT avec middleware et validation Joi
 
-Docker pour MySQL et backend
-
-Base de données avec tables users, categories, recipes avec created_at et updated_at
-
-Routes et controllers pour CRUD complet
-
-Ce qu’il reste à faire :
-
-Backend :, tests unitaires/intégration, CI/CD
-
-Frontend : React ou React Native avec pages Login, Register, Dashboard, Liste Recettes, Détails Recette, Création/Modification Recette, Gestion Catégories, consommation des API backend
-
-Déploiement sur serveur Linux avec Docker
-
-Reprends depuis la prochaine étape backend ou frontend selon les priorités. »
+Planning restant conseillé
+Étape suivante recommandée
+Commencer le frontend maintenant.
+Backend est déjà bien avancé.

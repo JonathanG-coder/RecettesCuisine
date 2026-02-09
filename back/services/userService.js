@@ -34,7 +34,9 @@ export const UserService = {
       role: user.role,
     });
 
-    return { user, token };
+    const { password_hash, ...safeUser } = user;
+    return { user: safeUser, token };
+
   },
 
   uploadAvatar: async (userId, file) => {
