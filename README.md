@@ -230,7 +230,7 @@ index.js
 docker-compose.yml
 
 
-Frontend prévu : 
+Frontend prévu :
 Application React Native / Expo.
 Pages principales :
 Login
@@ -248,15 +248,14 @@ Navigation mobile
 Modal édition
 
 
-Fonctionnalités restantes
+
+Fonctionnalités restantes :
 
 Backend
 À faire :
-validation complète recettes
-images recettes
 tests unitaires
 tests d’intégration
-CI/CD
+pipeline CI/CD
 cache Redis (optionnel)
 
 Frontend
