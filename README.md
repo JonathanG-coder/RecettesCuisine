@@ -28,9 +28,6 @@ déploiement Linux,
 bonnes pratiques professionnelles.
 
 
-
-
-
 Stack technique
 Partie	Technologie
 Frontend	React Native (Expo)
@@ -62,10 +59,8 @@ Backend Node.js (Express)
 
 
 
-
+------------------------------------------------------------------------------------------------------
 Base de données : 
-
-
 Table users
 users
 - id
@@ -75,18 +70,12 @@ users
 - role (user/admin)
 - created_at
 
-
-
-
 Table categories
 categories
 - id
 - name
 - description
 - created_at
-
-
-
 
 Table recipes
 recipes
@@ -99,11 +88,9 @@ recipes
 - created_at
 - updated_at
 
-
 Relations :
 recette → catégorie
 recette → utilisateur
-
 
 Table favorites
 favorites
@@ -112,11 +99,12 @@ favorites
 - recipe_id
 - created_at
 
-
 Contrainte :
 UNIQUE(user_id, recipe_id)
 Empêche les doublons.
 
+-----------------------------------------------------------------------------------------------------------
+BACKEND : 
 
 État actuel du projet (MIS À JOUR)
 Environnement
@@ -127,14 +115,12 @@ Environnement
 
 Authentification
 Fonctionnalités disponibles :
-
 ✔ Register
 ✔ Login
 ✔ Logout
 ✔ Récupération utilisateur connecté
 
 Sécurité :
-
 ✔ Hash password
 ✔ JWT
 ✔ Cookie httpOnly
@@ -145,7 +131,6 @@ Sécurité :
 
 Gestion des catégories
 CRUD complet :
-
 ✔ Créer catégorie
 ✔ Lister catégories
 ✔ Modifier catégorie
@@ -153,19 +138,15 @@ CRUD complet :
 
 Gestion des recettes
 CRUD complet :
-
 ✔ Créer recette
 ✔ Voir toutes les recettes
 ✔ Voir recette par ID
 ✔ Modifier recette
 ✔ Supprimer recette
 
-
 Sécurité :
 ✔ Recette liée à utilisateur
 ✔ Auteur ou admin peut modifier/supprimer
-
-
 
 Fonctionnalités :
 ✔ Pagination
@@ -229,6 +210,28 @@ index.js
 .env
 docker-compose.yml
 
+---------------------------------------------------------------------------------------------------------
+FRONTEND : 
+Frontend - React Native / Expo
+Créer le projet Expo
+npx create-expo-app Recettes --template blank
+cd Recettes
+
+Dependances : 
+Installer React Navigation
+npm install @react-navigation/native @react-navigation/native-stack
+Installer les dépendances natives compatibles Expo
+npx expo install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated react-native-masked-view
+react-native-safe-area-context : utile pour gérer les zones “safe” (notch / barre de statut).
+react-native-screens : améliore les performances de navigation.
+Installer Axios pour la communication avec le backend
+npm install axios
+Installer EAS CLI pour builds et déploiement
+npm install -g eas-cli
+
+Lancer le projet
+npx expo start
+
 
 Frontend prévu :
 Application React Native / Expo.
@@ -248,7 +251,7 @@ Navigation mobile
 Modal édition
 
 
-
+----------------------------------------------------------------------------------------------------
 Fonctionnalités restantes :
 
 Backend
@@ -290,10 +293,3 @@ export PDF recette
 partage réseaux sociaux
 mode sombre
 cache Redis
-
-
-
-Planning restant conseillé
-Étape suivante recommandée
-Commencer le frontend maintenant.
-Backend est déjà bien avancé.
