@@ -15,10 +15,6 @@ import { upload } from "../middlewares/uploadCloudinary.js";
 
 const router = express.Router();
 
-// ==========================
-// CRUD Recettes
-// ==========================
-
 // Créer une recette (connecté + image)
 router.post(
   "/",

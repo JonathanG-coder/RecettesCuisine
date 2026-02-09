@@ -20,10 +20,8 @@ const app = express();
 import bcrypt from "bcrypt";
 
 
-// ==========================
 // Middlewares globaux
-// ==========================
-app.use(helmet()); // sécurité HTTP headers
+app.use(helmet());
 app.use(cors({
   origin: "http://localhost:5173", // front Vite
   credentials: true
@@ -31,25 +29,23 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// ==========================
+
 // Route test
-// ==========================
 app.get("/", (req, res) => {
   res.send("RecettesCuisine en ligne");
 });
 
-// ==========================
+
 // Routes API
-// ==========================
 app.use("/api/auth", authRoutes);         // Authentification / utilisateurs
-app.use("/api/recipes", recipeRoutes);   // Recettes CRUD
-app.use("/api/categories", categoryRoutes); // Catégories CRUD
+app.use("/api/recipes", recipeRoutes);   // Recettes
+app.use("/api/categories", categoryRoutes); // Catégories
 app.use("/api/favorites", favoriteRoutes);  // Favoris
 app.use("/api/images", imageRoutes);        // image
 
-// ==========================
+
+
 // Test connexion MySQL
-// ==========================
 const testDB = async () => {
   try {
     const connection = await pool.getConnection();
@@ -62,9 +58,8 @@ const testDB = async () => {
 
 testDB();
 
-// ==========================
+
 // Lancement serveur
-// ==========================
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

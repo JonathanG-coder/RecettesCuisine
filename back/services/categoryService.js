@@ -49,7 +49,7 @@ export const CategoryService = {
   },
 
   getAllCategories: async () => {
-    return await Category.getCategories();
+    return await Category.getAllCategories();
   },
 
   getCategoryById: async (id) => {

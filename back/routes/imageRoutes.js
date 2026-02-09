@@ -8,7 +8,7 @@ const router = express.Router();
 // Routes protégées par JWT
 router.use(verifyToken);
 
-// Upload image
+// Telecharger une image
 router.post("/", upload.single("image"), uploadImage);
 
 // Supprimer image par public_id

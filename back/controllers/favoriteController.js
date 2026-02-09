@@ -1,8 +1,6 @@
 import { Favorite } from "../models/favoriteModel.js";
 
-// ==========================
-// GET ALL FAVORITES
-// ==========================
+// Obtenir tous les Favoris
 export const getFavorites = async (req, res) => {
   try {
     const user_id = req.user.id;
@@ -14,9 +12,7 @@ export const getFavorites = async (req, res) => {
   }
 };
 
-// ==========================
-// ADD FAVORITE
-// ==========================
+// Ajouter Favori
 export const addFavorite = async (req, res) => {
   const user_id = req.user.id;
   const { recipe_id } = req.body;
@@ -33,9 +29,7 @@ export const addFavorite = async (req, res) => {
   }
 };
 
-// ==========================
-// REMOVE FAVORITE
-// ==========================
+// Supprimer Favori
 export const removeFavorite = async (req, res) => {
   const user_id = req.user.id;
   const { recipe_id } = req.params;

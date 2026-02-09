@@ -1,6 +1,6 @@
 import { CategoryService } from "../services/categoryService.js";
 
-// ==========================
+
 // Créer une catégorie (avec image)
 export const createCategory = async (req, res) => {
   const { name, description } = req.body;
@@ -18,7 +18,6 @@ export const createCategory = async (req, res) => {
   }
 };
 
-// ==========================
 // Lister toutes les catégories
 export const getAllCategories = async (req, res) => {
   try {
@@ -30,7 +29,6 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
-// ==========================
 // Récupérer une catégorie par ID
 export const getCategoryById = async (req, res) => {
   try {
@@ -43,7 +41,7 @@ export const getCategoryById = async (req, res) => {
   }
 };
 
-// ==========================
+
 // Modifier une catégorie (avec image)
 export const updateCategory = async (req, res) => {
   const { name, description } = req.body;
@@ -60,7 +58,7 @@ export const updateCategory = async (req, res) => {
   }
 };
 
-// ==========================
+
 // Supprimer une catégorie
 export const deleteCategory = async (req, res) => {
   try {

@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
 
-// ==========================
 // Vérification du token
-// ==========================
 export const verifyToken = (req, res, next) => {
   try {
     const token = req.cookies.token;
@@ -20,9 +18,7 @@ export const verifyToken = (req, res, next) => {
   }
 };
 
-// ==========================
 // Vérification des rôles
-// ==========================
 export const requireAuth = (roles = []) => {
   return (req, res, next) => {
     if (!req.user) {

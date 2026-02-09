@@ -1,6 +1,6 @@
 import { RecipeService } from "../services/recipeService.js";
 
-// ==========================
+
 // Créer une recette (avec image)
 export const createRecipe = async (req, res) => {
   const { title, description, ingredients, category_id } = req.body;
@@ -23,7 +23,7 @@ export const createRecipe = async (req, res) => {
   }
 };
 
-// ==========================
+
 // Récupérer toutes les recettes
 export const getAllRecipes = async (req, res) => {
   const filters = {
@@ -44,7 +44,7 @@ export const getAllRecipes = async (req, res) => {
   }
 };
 
-// ==========================
+
 // Récupérer une recette par ID
 export const getRecipeById = async (req, res) => {
   try {
@@ -57,7 +57,7 @@ export const getRecipeById = async (req, res) => {
   }
 };
 
-// ==========================
+
 // Modifier une recette (avec image)
 export const updateRecipe = async (req, res) => {
   const { title, description, ingredients, category_id } = req.body;

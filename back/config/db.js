@@ -9,9 +9,9 @@ const pool = mysql.createPool({
     user: process.env.DB_USER || 'user',
     password: process.env.DB_PASSWORD || 'userpass',
     database: process.env.DB_NAME || 'recettesCuisine_db',
-    waitForConnections: true,   // Attendre si toutes les connexions sont occupées
-    connectionLimit: 5,         // Max 5 connexions simultanées
-    queueLimit: 0               // Pas de limite dans la file d'attente
+    waitForConnections: true,   
+    connectionLimit: 5,      
+    queueLimit: 0               
 });
 
 export default pool;

@@ -1,8 +1,6 @@
 import Joi from "joi";
 
-// ==========================
 // CREATE / UPDATE CATEGORY VALIDATION
-// ==========================
 export const categorySchema = Joi.object({
   name: Joi.string()
     .min(2)

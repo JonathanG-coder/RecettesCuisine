@@ -1,7 +1,6 @@
 import { UserService } from "../services/userService.js";
 
-// ==========================
-// REGISTER
+// Registre
 export const register = async (req, res) => {
   try {
     const userId = await UserService.register(req.body);
@@ -12,8 +11,7 @@ export const register = async (req, res) => {
   }
 };
 
-// ==========================
-// LOGIN
+// Conenxion
 export const loginUser = async (req, res) => {
   try {
     const { user, token } = await UserService.login(req.body);
@@ -35,21 +33,21 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// ==========================
-// LOGOUT
+
+// Deconnexion
 export const logoutUser = (req, res) => {
   res.clearCookie("token", { httpOnly: true, secure: false, sameSite: "lax" });
   res.json({ message: "Déconnexion réussie" });
 };
 
-// ==========================
-// GET ME
+
+// Get me
 export const getMe = (req, res) => {
   res.json({ user: req.user });
 };
 
-// ==========================
-// UPLOAD AVATAR
+
+// Telecharger avatar
 export const uploadAvatar = async (req, res) => {
   try {
     console.log("===== DEBUG AVATAR UPLOAD =====");
@@ -66,8 +64,7 @@ export const uploadAvatar = async (req, res) => {
   }
 };
 
-// ==========================
-// DELETE USER
+// Supprimer utilisateur
 export const deleteUser = async (req, res) => {
   try {
     await UserService.deleteUser(req.params.id);

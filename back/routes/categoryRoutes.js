@@ -7,10 +7,6 @@ import { upload } from "../middlewares/uploadCloudinary.js";
 
 const router = express.Router();
 
-// ==========================
-// CRUD Categories
-// ==========================
-
 // Créer une catégorie (admin seulement + image)
 router.post(
   "/",

@@ -8,9 +8,8 @@ import { upload } from "../middlewares/uploadCloudinary.js";
 
 const router = express.Router();
 
-// ==========================
+
 // Rate limiter pour login
-// ==========================
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 10,                  // 10 tentatives max par IP
@@ -20,14 +19,11 @@ const loginLimiter = rateLimit({
   message: { message: "Trop de tentatives de connexion. Réessayez dans 15 minutes." },
 });
 
-// ==========================
 // Routes utilisateurs
-// ==========================
-
-// 1️⃣ Inscription publique
+// Inscription publique
 router.post("/register", validate(registerSchema), register);
 
-// 2️⃣ Créer un utilisateur (admin seulement, rôle choisi)
+// Créer un utilisateur (admin seulement, rôle choisi)
 router.post(
   "/",
   verifyToken,
@@ -56,7 +52,7 @@ router.put(
 // Supprimer un utilisateur (admin seulement)
 router.delete("/:id", verifyToken, requireAuth(["admin"]), deleteUser);
 
-// ==========================
+
 // Route admin protégée (exemple)
 router.get(
   "/admin/dashboard",

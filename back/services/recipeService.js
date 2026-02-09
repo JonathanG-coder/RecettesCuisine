@@ -4,11 +4,11 @@ import cloudinary from "../config/cloudinary.js";
 
 export const RecipeService = {
   createRecipe: async ({ title, description, ingredients, category_id, user_id, file }) => {
-    // 1️⃣ Créer la recette
+    // Créer la recette
     const result = await Recipe.createRecipe({ title, description, ingredients, category_id, user_id });
     const recipeId = result.insertId;
 
-    // 2️⃣ Ajouter l'image si elle existe
+    // Ajouter l'image si elle existe
     if (file) {
       await Image.addImage({
         url: file.path,
@@ -22,10 +22,10 @@ export const RecipeService = {
   },
 
   updateRecipe: async (id, { title, description, ingredients, category_id, file }) => {
-    // 1️⃣ Mise à jour de la recette
+    // Mise à jour de la recette
     await Recipe.updateRecipe(id, { title, description, ingredients, category_id });
 
-    // 2️⃣ Gestion de l'image
+    // Gestion de l'image
     if (file) {
       const oldImages = await Image.getImagesByEntity("recipe", id);
 

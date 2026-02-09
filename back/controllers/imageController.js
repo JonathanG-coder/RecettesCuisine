@@ -1,7 +1,7 @@
 import { Image } from "../models/imageModel.js";
 import cloudinary from "../config/cloudinary.js";
 
-// Upload une image
+// Telecharger une image
 export const uploadImage = async (req, res) => {
   const { entity_type, entity_id } = req.body;
 

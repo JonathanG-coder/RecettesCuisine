@@ -57,7 +57,7 @@ export const UserService = {
   },
 
   deleteUser: async (userId) => {
-    // Supprimer avatar si existant
+    // Supprimer avatar si existe
     const oldImages = await Image.getImagesByEntity("user", userId);
     for (const img of oldImages) {
       await cloudinary.uploader.destroy(img.public_id);

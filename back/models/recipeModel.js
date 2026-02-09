@@ -1,9 +1,8 @@
 import pool from "../config/db.js";
 
 export const Recipe = {
-  // ==========================
-  // CREATE RECIPE
-  // ==========================
+
+  // Créer une recette
   createRecipe: async ({ title, description, ingredients, category_id, user_id }) => {
     const sql = `
       INSERT INTO recipes (title, description, ingredients, category_id, user_id)
@@ -20,9 +19,7 @@ export const Recipe = {
     return result;
   },
 
-  // ==========================
   // GET RECIPES WITH FILTERS + PAGINATION + IMAGE
-  // ==========================
   getRecipes: async (filters, limit, offset) => {
     let sql = `
       SELECT r.*, c.name AS category_name, u.name AS author,
@@ -58,9 +55,7 @@ export const Recipe = {
     return rows;
   },
 
-  // ==========================
-  // GET ONE RECIPE
-  // ==========================
+// Obtenir une recette
   getRecipeById: async (id) => {
     const sql = `
       SELECT r.*, c.name AS category_name, u.name AS author,
@@ -75,9 +70,7 @@ export const Recipe = {
     return rows[0];
   },
 
-  // ==========================
-  // UPDATE RECIPE
-  // ==========================
+// Telecharger une recette
   updateRecipe: async (id, { title, description, ingredients, category_id }) => {
     const sql = `
       UPDATE recipes
@@ -95,9 +88,7 @@ export const Recipe = {
     return result;
   },
 
-  // ==========================
-  // DELETE RECIPE
-  // ==========================
+// Supprimer une recette
   deleteRecipe: async (id) => {
     const sql = `DELETE FROM recipes WHERE id = ?`;
     const [result] = await pool.query(sql, [id]);

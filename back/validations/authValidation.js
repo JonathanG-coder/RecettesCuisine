@@ -1,8 +1,6 @@
 import Joi from "joi";
 
-// ==========================
-// REGISTER VALIDATION
-// ==========================
+// Registre
 export const registerSchema = Joi.object({
   name: Joi.string()
     .min(2)
@@ -40,9 +38,8 @@ export const registerSchema = Joi.object({
     .optional(),
 });
 
-// ==========================
-// LOGIN VALIDATION
-// ==========================
+
+// Login
 export const loginSchema = Joi.object({
   email: Joi.string()
     .email()
