@@ -22,10 +22,25 @@ import bcrypt from "bcrypt";
 
 // Middlewares globaux
 app.use(helmet());
+
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL_WEB,
+  process.env.FRONTEND_URL_MOBILE
+];
+
 app.use(cors({
-  origin: "http://localhost:5173", // front Vite
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
+
+
 app.use(express.json());
 app.use(cookieParser());
 

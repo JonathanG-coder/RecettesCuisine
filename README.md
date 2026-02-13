@@ -228,6 +228,9 @@ Installer Axios pour la communication avec le backend
 npm install axios
 Installer EAS CLI pour builds et déploiement
 npm install -g eas-cli
+Pour authentification : 
+npx expo install expo-secure-store
+
 
 Lancer le projet
 npx expo start
@@ -235,20 +238,29 @@ npx expo start
 
 Frontend prévu :
 Application React Native / Expo.
-Pages principales :
-Login
-Register
-Dashboard recettes
-Détail recette
-Création recette
-Modification recette
-Profil utilisateur
-Favoris
-Composants :
-RecipeCard
-RecipeForm
-Navigation mobile
-Modal édition
+/Recettes
+  /assets        → images, logos, icônes
+  /components    → cartes, boutons, modals réutilisables
+  /screens       → pages principales :
+                  - LoginScreen.js
+                  - RegisterScreen.js
+                  - DashboardScreen.js
+                  - RecipeDetailScreen.js
+                  - CreateRecipeScreen.js
+                  - EditRecipeScreen.js
+                  - FavoritesScreen.js
+                  - CategoriesScreen.js
+  /navigation    → stack / tab navigation :
+                  - AppNavigator.js
+                  - AuthNavigator.js
+  /services      → communication API avec le backend (axios) :
+                  - api.js
+                  - authService.js
+                  - recipeService.js
+                  - categoryService.js
+                  - favoriteService.js
+  App.js         → point d’entrée
+
 
 
 ----------------------------------------------------------------------------------------------------
